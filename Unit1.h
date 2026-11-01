@@ -10,16 +10,16 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-// --- 1. ²Õ¦X (Composition)¡GªZ¾¹Ãş§O ---
+// --- 1. çµ„åˆ (Composition)ï¼šæ­¦å™¨é¡åˆ¥ ---
 class Weapon {
 public:
     AnsiString name;
     int extraDamage;
-    Weapon() { name = "ªÅ¤â"; extraDamage = 0; }
+    Weapon() { name = "ç©ºæ‰‹"; extraDamage = 0; }
     Weapon(AnsiString n, int dmg) { name = n; extraDamage = dmg; }
 };
 
-// --- 2. °òÂ¦Ãş§O (Base Class) ---
+// --- 2. åŸºç¤é¡åˆ¥ (Base Class) ---
 class Character {
 public:
     AnsiString name;
@@ -34,57 +34,57 @@ public:
         baseAttack = atk;
     }
 
-    // ¦h«¬ (Polymorphism) ·Ç³Æ¡GµêÀÀ¨ç¼Æ¡AÅı¤lÃş§O§ï¼g§ğÀ»­pºâ
+    // å¤šå‹ (Polymorphism) æº–å‚™ï¼šè™›æ“¬å‡½æ•¸ï¼Œè®“å­é¡åˆ¥æ”¹å¯«æ”»æ“Šè¨ˆç®—
     virtual int attack() {
         return baseAttack;
     }
 
-    // ¦©¦åÅŞ¿è
+    // æ‰£è¡€é‚è¼¯
     void takeDamage(int dmg) {
         hp -= dmg;
         if (hp < 0) hp = 0;
     }
 
-    // §PÂ_¥Í¦º
+    // åˆ¤æ–·ç”Ÿæ­»
     bool isDead() {
         return hp <= 0;
     }
 
-    // --- 3. ¦h¸ü (Overloading)¡G¨âºØ¸É¦å¤è¦¡ ---
+    // --- 3. å¤šè¼‰ (Overloading)ï¼šå…©ç¨®è£œè¡€æ–¹å¼ ---
     void heal(int amount) {
         hp += amount;
-        if (hp > maxHp) hp = maxHp; // ¸É¦å¤£¯à¶W¹L¤W­­
+        if (hp > maxHp) hp = maxHp; // è£œè¡€ä¸èƒ½è¶…éä¸Šé™
     }
 
     void heal() {
-        hp = maxHp; // ¨S¶Ç°Ñ¼Æ®É¡A¹w³]ª½±µ¸Éº¡¦å
+        hp = maxHp; // æ²’å‚³åƒæ•¸æ™‚ï¼Œé è¨­ç›´æ¥è£œæ»¿è¡€
     }
 };
 
-// --- 4. Ä~©Ó (Inheritance) »P ¦h«¬¡Gª±®aÃş§O ---
+// --- 4. ç¹¼æ‰¿ (Inheritance) èˆ‡ å¤šå‹ï¼šç©å®¶é¡åˆ¥ ---
 class Player : public Character {
 public:
     int mp;
-    Weapon currentWeapon; // ª±®a¾Ö¦³ªZ¾¹ (³o´N¬O²Õ¦XÃö«Y)
+    Weapon currentWeapon; // ç©å®¶æ“æœ‰æ­¦å™¨ (é€™å°±æ˜¯çµ„åˆé—œä¿‚)
 
 	Player(AnsiString n, int mHp, int atk, int m) : Character(n, mHp, atk) {
         mp = m;
     }
 
-    // ÂĞ¼g (Override) §ğÀ»¨ç¼Æ¡A¥[¤WªZ¾¹ªºªş¥[¶Ë®`
+    // è¦†å¯« (Override) æ”»æ“Šå‡½æ•¸ï¼ŒåŠ ä¸Šæ­¦å™¨çš„é™„åŠ å‚·å®³
     int attack() {
         return baseAttack + currentWeapon.extraDamage;
     }
 };
 
-// --- 5. Ä~©Ó (Inheritance) »P ¦h«¬¡G©Çª«Ãş§O ---
+// --- 5. ç¹¼æ‰¿ (Inheritance) èˆ‡ å¤šå‹ï¼šæ€ªç‰©é¡åˆ¥ ---
 class Monster : public Character {
 public:
     Monster(AnsiString n, int mHp, int atk) : Character(n, mHp, atk) {}
 
-    // ÂĞ¼g (Override) §ğÀ»¨ç¼Æ¡AÅı©Çª«ªº§ğÀ»±a¦³ÀH¾÷¯B°Ê­È
+    // è¦†å¯« (Override) æ”»æ“Šå‡½æ•¸ï¼Œè®“æ€ªç‰©çš„æ”»æ“Šå¸¶æœ‰éš¨æ©Ÿæµ®å‹•å€¼
     int attack() {
-        int randomVariant = rand() % 5; // ²£¥Í 0~4 ªº¯B°Ê¶Ë®`
+        int randomVariant = rand() % 5; // ç”¢ç”Ÿ 0~4 çš„æµ®å‹•å‚·å®³
         return baseAttack + randomVariant;
     }
 };
@@ -105,9 +105,10 @@ __published:	// IDE-managed Components
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall btnMagicClick(TObject *Sender);
 	void __fastcall btnHealClick(TObject *Sender);
+	void __fastcall FormDestroy(TObject *Sender);
 private:	// User declarations
-	Player *hero;    // «Å§iª±®a«ü¼Ğ
-	Monster *slime;  // «Å§i©Çª««ü¼Ğ
+	Player *hero;    // å®£å‘Šç©å®¶æŒ‡æ¨™
+	Monster *slime;  // å®£å‘Šæ€ªç‰©æŒ‡æ¨™
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 };
