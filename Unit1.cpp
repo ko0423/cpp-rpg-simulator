@@ -141,3 +141,16 @@ void __fastcall TForm1::btnHealClick(TObject *Sender)
     Timer1->Enabled = true;
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::FormDestroy(TObject *Sender)
+{
+    // 釋放動態配置的記憶體，防止 Memory Leak
+    if (hero) {
+        delete hero;
+        hero = NULL;
+    }
+    if (slime) {
+        delete slime;
+        slime = NULL;
+    }
+}
+//---------------------------------------------------------------------------
